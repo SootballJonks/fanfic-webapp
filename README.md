@@ -14,6 +14,7 @@ Create your `.env` file and add AO3 login credentials:
   ```
   AO3_USERNAME=your_username
   AO3_PASSWORD=your_password
+  TARGET_URL= <AO3_link>
   ```
 
 Run `node scraper.mjs`

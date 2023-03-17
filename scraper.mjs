@@ -5,7 +5,7 @@ dotenv.config();
 
 
 const AO3_LOGIN_URL = 'https://archiveofourown.org/users/login';
-const TARGET_URL = 'https://archiveofourown.org/works/40210590/chapters/100714395';
+const TARGET_URL = process.env.TARGET_URL;
 
 const USERNAME = process.env.AO3_USERNAME;
 const PASSWORD = process.env.AO3_PASSWORD;
@@ -43,36 +43,36 @@ async function scrape() {
   const $ = cheerio.load(body);
 
   const rating = $('dd.rating').text().trim();
-    const fandoms = $('dd.fandom a').map((_, el) => $(el).text()).get();
-    const relationship = $('dd.relationship a').map((_, el) => $(el).text()).get();
-    const character = $('dd.character a').map((_, el) => $(el).text()).get();
-    const additionalTags = $('dd.freeform a').map((_, el) => $(el).text()).get();
+  const fandoms = $('dd.fandom a').map((_, el) => $(el).text()).get();
+  const relationship = $('dd.relationship a').map((_, el) => $(el).text()).get();
+  const character = $('dd.character a').map((_, el) => $(el).text()).get();
+  const additionalTags = $('dd.freeform a').map((_, el) => $(el).text()).get();
 
-    const published = $('dd.published').text().trim();
-    const words = $('dd.words').text().trim();
-    const chapters = $('dd.chapters').text().trim();
+  const published = $('dd.published').text().trim();
+  const words = $('dd.words').text().trim();
+  const chapters = $('dd.chapters').text().trim();
 
-    const title = $('h2.title.heading').text().trim();
-    const author = $('h3.byline a[rel="author"]').text().trim();
-    const summary = $('blockquote.userstuff:first').text().trim();
+  const title = $('h2.title.heading').text().trim();
+  const author = $('h3.byline a[rel="author"]').text().trim();
+  const summary = $('blockquote.userstuff:first').text().trim();
 
-    const data = {
-      rating,
-      fandoms,
-      relationship,
-      character,
-      additionalTags,
-      stats: {
-        published,
-        words,
-        chapters,
-      },
-      title,
-      author,
-      summary,
-    };
+  const data = {
+    rating,
+    fandoms,
+    relationship,
+    character,
+    additionalTags,
+    stats: {
+      published,
+      words,
+      chapters,
+    },
+    title,
+    author,
+    summary,
+  };
 
-    console.log(data); //add return value once this starts working
+  console.log(data); //add return value once this starts working
 
   await browser.close();
 }
