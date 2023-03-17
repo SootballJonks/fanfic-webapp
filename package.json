@@ -18,6 +18,7 @@
   "homepage": "https://github.com/SootballJonks/fanfic-webapp#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.0.3",
     "puppeteer": "^19.7.5",
     "tough-cookie": "^4.1.2"
   }

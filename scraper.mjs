@@ -1,5 +1,8 @@
 import puppeteer from 'puppeteer';
 import cheerio from 'cheerio';
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 const AO3_LOGIN_URL = 'https://archiveofourown.org/users/login';
 const TARGET_URL = 'https://archiveofourown.org/works/40210590/chapters/100714395';
