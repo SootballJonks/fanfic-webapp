@@ -1,0 +1,24 @@
+{
+  "name": "fanfic-webapp",
+  "version": "1.0.0",
+  "description": "WIP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SootballJonks/fanfic-webapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SootballJonks/fanfic-webapp/issues"
+  },
+  "homepage": "https://github.com/SootballJonks/fanfic-webapp#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "puppeteer": "^19.7.5",
+    "tough-cookie": "^4.1.2"
+  }
+}
