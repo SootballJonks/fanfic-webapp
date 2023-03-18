@@ -17,6 +17,9 @@ Create your `.env` file and add AO3 login credentials:
   TARGET_URL= <AO3_link>
   ```
 
-Run `node scraper.mjs`
+Run `node AO3Scraper.mjs`
+
+
+Trying to make one for FFNET but it may require 2captcha or some other captcha solving service.
 
 
