@@ -20,6 +20,9 @@
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.0.3",
     "puppeteer": "^19.7.5",
-    "tough-cookie": "^4.1.2"
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-recaptcha": "^3.6.8",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "puppeteer-extra-plugin-user-preferences": "^2.4.1"
   }
 }
