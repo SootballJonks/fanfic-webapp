@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/SootballJonks/fanfic-webapp#readme",
   "dependencies": {
+    "2captcha": "^3.0.5",
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.0.3",
+    "node-fetch": "^3.3.1",
     "puppeteer": "^19.7.5",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-recaptcha": "^3.6.8",
