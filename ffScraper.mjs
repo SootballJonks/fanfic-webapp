@@ -1,8 +1,6 @@
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import CaptchaSolver from './captchaSolver.mjs';
-// import RecaptchaPlugin from 'puppeteer-extra-plugin-recaptcha';
-// import UserPreferencesPlugin from 'puppeteer-extra-plugin-user-preferences';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -10,45 +8,33 @@ const RECAPTCHA_API_KEY = process.env.RECAPTCHA_API_KEY; // Replace with your AP
 const captchaSolver = new CaptchaSolver(RECAPTCHA_API_KEY);
 
 puppeteer.use(StealthPlugin());
-// puppeteer.use(
-//   RecaptchaPlugin({
-//     provider: {
-//       id: '2captcha',
-//       token: RECAPTCHA_API_KEY,
-//     },
-//     visualFeedback: true,
-//   }),
-// );
-// puppeteer.use(UserPreferencesPlugin({
-//   userPrefs: {
-//     credential_enable_service: false,
-//     profile: {
-//       password_manager_enabled: false,
-//     },
-//   },
-// }));
 
 async function solveCaptcha(page) {
   try {
     // Wait for the reCAPTCHA element to be available before getting the siteKey
-    await page.waitForSelector('.g-recaptcha', { timeout: 10000 });
+    console.log("Step 1: solveCaptcha function has been called...");
+    // await page.waitForSelector('.g-recaptcha', { timeout: 10000 });
 
     const siteKey = await page.evaluate(() => {
-      return document.querySelector('.g-recaptcha')?.getAttribute('data-sitekey');
+      // return document.querySelector('.g-recaptcha')?.getAttribute('data-sitekey');
+      return "0x4AAAAAAAAjq6WYeRDKmebM";
     });
 
     if (siteKey) {
       const url = page.url();
       const captchaResponse = await captchaSolver.solveRecaptcha(siteKey, url);
+      console.log("Step 2: captchaResponse: ", captchaResponse);
 
       if (captchaResponse.errorId === 0) {
         await page.evaluate(
           (response) => {
-            document.getElementById('g-recaptcha-response').innerHTML = response;
+            console.log("Step 3: Applying token and attempting to click checkbox...");
+            document.querySelector('input[name="cf-turnstile-response"]').value = response;
           },
           captchaResponse.solution
         );
-        await page.click('#challenge-form button');
+        await page.waitForTimeout(60000);
+        // await page.click('.ctp-checkbox-container .mark');
         return true;
       }
     }
@@ -65,17 +51,12 @@ async function ffScrape() {
   const browser = await puppeteer.launch({ headless: false }); 
   const page = await browser.newPage();
 
-  // // CLOUDFLARE CAPTCHA BYPASS
-  // await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36');
-  // await page.setViewport({ width: 1280, height: 800 });
-
-
   // Navigate to the URL
   const url = 'https://www.fanfiction.net/s/4918909/1/The-Still-Beat';
   await page.goto(url, { waitUntil: 'networkidle2', timeout: 0 });
 
   // Introduce a delay to allow the Cloudflare challenge page to load
-  await page.waitForTimeout(5000); // delay to load captcha
+  await page.waitForTimeout(30000); // delay to load captcha
   const captchaSolved = await solveCaptcha(page);
   await page.waitForTimeout(5000); // delay to submit captcha
 
@@ -85,17 +66,6 @@ async function ffScrape() {
   } else {
     console.log('Captcha not detected or not solved.');
   }
-
-
-  // //Check for Cloudflare challenge page
-  // const cloudflareChallengeSelector = '#challenge-form';
-  // const hasCloudflareChallenge = await page.$(cloudflareChallengeSelector);
-  // if (hasCloudflareChallenge) {
-  //   console.log('Cloudflare challenge detected, solving reCAPTCHA...');
-  //   await page.solveRecaptchas();
-  //   console.log('Cloudflare challenge solved.');
-  //   // await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 0 });
-  // }
 
   // Collect text from the 'profile_top' element
   const profileTopSelector = '#profile_top';

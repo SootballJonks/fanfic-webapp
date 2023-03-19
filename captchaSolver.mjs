@@ -11,7 +11,7 @@ class CaptchaSolver {
 
     const response = await fetch(apiUrl);
     const result = await response.json();
-
+    console.log("Request received by 2captcha!");
 
     if (result.status !== 1) {
       return { errorId: 1, errorMessage: 'Error sending captcha to 2captcha' };
@@ -25,8 +25,10 @@ class CaptchaSolver {
       const checkUrl = `https://2captcha.com/res.php?key=${this.apiKey}&action=get&id=${requestId}&json=1`;
       const checkResponse = await fetch(checkUrl);
       const checkResult = await checkResponse.json();
+      console.log("Checking request status...");
 
       if (checkResult.status === 1) {
+        console.log("Checking request status... OK! ✔");
         return { errorId: 0, solution: checkResult.request };
       }
     }
